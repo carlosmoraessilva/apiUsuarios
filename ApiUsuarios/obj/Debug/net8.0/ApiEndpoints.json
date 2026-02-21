@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "ContainingType": "ApiUsuarios.Controllers.LoginController",
+    "Method": "RegistrarUsuario",
+    "RelativePath": "api/Login/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "ApiUsuarios.Dto.Usuario.UsuarioCriacaoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
