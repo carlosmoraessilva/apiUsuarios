@@ -139,6 +139,34 @@ namespace ApiUsuarios.Services.Usuario
             }
         }
 
+        public async Task<ResponseModel<UsuarioModel>> RemoverUsuario(int id)
+        {
+
+            ResponseModel<UsuarioModel> response = new ResponseModel<UsuarioModel>();
+            try
+            {
+                
+                var usuarioBanco = await _context.Usuarios.FindAsync(id);
+                if (usuarioBanco == null)
+                {
+                    response.Mensagem = "Usuário não encontrado.";
+                    response.Status = false;
+                    return response;
+                }
+                _context.Usuarios.Remove(usuarioBanco);
+                _context.SaveChanges();
+                response.Mensagem = "Usuário removido com sucesso.";
+                response.Dados = usuarioBanco;
+                return response;
+            }
+            catch (Exception ex)
+            {
+              
+                response.Mensagem = ex.Message;
+                response.Status = false;
+                return response;
+            }
+        }
         private bool VerificaSeExisteEmailUsuarioRepetidos(UsuarioCriacaoDto usuarioCriacaoDto)
         {
             var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == usuarioCriacaoDto.Email || u.Usuario == usuarioCriacaoDto.Usuario);
