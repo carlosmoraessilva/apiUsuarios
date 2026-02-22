@@ -14,5 +14,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApiUsuarios.Controllers.UsuarioController",
+    "Method": "ListarUsuarios",
+    "RelativePath": "api/Usuario",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]
