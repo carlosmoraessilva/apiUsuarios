@@ -43,6 +43,40 @@ namespace ApiUsuarios.Services.Usuario
 
         }
 
+        public async Task<ResponseModel<UsuarioModel>> EditarUsuario(UsuarioEdicaoDto usuarioEdicaoDto)
+        {
+            ResponseModel<UsuarioModel> response = new ResponseModel<UsuarioModel>();
+
+            try
+            {
+                var usuarioBanco = await _context.Usuarios.FindAsync(usuarioEdicaoDto.Id);
+                if (usuarioBanco == null)
+                {
+                    response.Mensagem = "Usuário não encontrado.";
+                    response.Status = false;
+                    return response;
+                }
+                usuarioBanco.Usuario = usuarioEdicaoDto.Usuario;
+                usuarioBanco.Nome = usuarioEdicaoDto.Nome;
+                usuarioBanco.Sobrenome = usuarioEdicaoDto.Sobrenome;
+                usuarioBanco.Email = usuarioEdicaoDto.Email;
+
+                usuarioBanco.DataAlteracao = DateTime.Now;
+
+                _context.Update(usuarioBanco);
+                await _context.SaveChangesAsync();
+                response.Mensagem = "Usuário editado com sucesso.";
+                response.Dados = usuarioBanco;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Mensagem = ex.Message;
+                response.Status = false;
+                return response;
+            }
+        }
+
         public async Task<ResponseModel<List<UsuarioModel>>> ListarUsuarios()
         {
             ResponseModel<List<UsuarioModel>> response = new ResponseModel<List<UsuarioModel>>();
