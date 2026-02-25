@@ -1,4 +1,5 @@
 ﻿using ApiUsuarios.Data;
+using ApiUsuarios.Dto.Login;
 using ApiUsuarios.Dto.Usuario;
 using ApiUsuarios.Models;
 using ApiUsuarios.Services.Senha;
@@ -91,6 +92,48 @@ namespace ApiUsuarios.Services.Usuario
             {
                 response.Mensagem = ex.Message;
                 response.Status = false;
+                return response;
+            }
+        }
+
+        public async Task<ResponseModel<UsuarioModel>> Login(UsuarioLoginDto usuarioLoginDto)
+        {
+
+            ResponseModel<UsuarioModel> response = new ResponseModel<UsuarioModel>();
+            try
+            {
+                
+               var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuarioLoginDto.Email);
+                if (usuario == null)
+                {
+                    response.Mensagem = "Usuário não encontrado.";
+                    response.Status = false;
+                    return response;
+                }
+                if (!_senhaInterface.VerificarSenhaHash(usuarioLoginDto.Senha, usuario.SenhaHash, usuario.SenhaSalt))
+                {
+                    response.Mensagem = "Credenciais inválidas.";
+                    response.Status = false;
+                    return response;
+                }
+                
+                var token = _senhaInterface.CriarToken(usuario);
+
+                usuario.Token = token;
+
+                _context.Update(usuario);
+                await _context.SaveChangesAsync();
+
+                response.Dados = usuario;
+                response.Mensagem = "Login realizado com sucesso.";
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                
+              response.Mensagem = ex.Message;
+              response.Status = false;
                 return response;
             }
         }
