@@ -75,8 +75,19 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -104,8 +115,19 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
       }
     },
     "/api/Usuario/{id}": {
@@ -127,8 +149,19 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -148,8 +181,19 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
       }
     }
   },
@@ -254,6 +298,14 @@
           }
         },
         "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "apiKey",
+        "description": "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        "name": "Authorization",
+        "in": "header"
       }
     }
   }
